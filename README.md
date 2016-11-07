@@ -1,7 +1,9 @@
 linenotcat
 ==
 
-A command line tool to send messages to LINE Notify.
+A command line tool to send messages to [LINE Notify](https://notify-bot.line.me/).
+
+linenotcat = LINE NOTify + cat
 
 Getting Started
 --
@@ -68,7 +70,7 @@ $ echo 'Hello world!' | linenotcat --config_file="/your/path/to/config"
 
 Then this command loads token information from your specified configuration file.
 
-Executable binaries
+Executable Binaries
 --
 
 Those are on [GitHub Releases](https://github.com/moznion/linenotcat/releases)
@@ -77,6 +79,11 @@ Thanks
 --
 
 This tool is much inspired by [slackcat](https://github.com/vektorlab/slackcat) and some code is taken from that.
+
+See Also
+--
+
+- [LINE Notify](https://notify-bot.line.me/)
 
 Author
 --
