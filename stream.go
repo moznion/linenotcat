@@ -16,11 +16,11 @@ type stream struct {
 	lineNotifier *lineNotifier
 }
 
-func newStream(token string) *stream {
+func newStream(lineNotifier *lineNotifier) *stream {
 	return &stream{
 		queue:        newQueue(),
 		shutdown:     make(chan os.Signal, 1),
-		lineNotifier: &lineNotifier{token: token},
+		lineNotifier: lineNotifier,
 	}
 }
 

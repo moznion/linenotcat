@@ -69,7 +69,7 @@ func Run(args []string) {
 			fmt.Println("Given file, but it is ignored when stream mode")
 		}
 
-		s := newStream(token)
+		s := newStream(ln)
 		go s.processStreamQueue(o.Tee)
 		go s.watchStdin()
 		go s.trap()
