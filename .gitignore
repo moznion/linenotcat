@@ -1,3 +1,7 @@
 /linenotcat
 bin/*
 !bin/.gitkeep
+devtools/*
+!devtools/.gitkeep
+/vendor/
+
