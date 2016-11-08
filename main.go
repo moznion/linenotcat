@@ -44,7 +44,11 @@ func Run(args []string) {
 	}
 
 	if err != nil {
-		panic(err)
+		fmt.Println(`[ERROR] Failed to load configuration file.
+Is configuration file perhaps missing?
+Please try:
+	$ echo 'YOUR_ACCESS_TOKEN' > $HOME/.linenotcat`)
+		os.Exit(1)
 	}
 
 	arb := &apiRequestBuilder{token: token}
