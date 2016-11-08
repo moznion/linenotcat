@@ -50,6 +50,13 @@ func Run(args []string) {
 	}
 
 	if o.ImageFile != "" {
+		if o.Stream {
+			fmt.Println("Given stream option, but it is ignored when image sending mode")
+		}
+		if len(remainArgs) > 0 {
+			fmt.Println("Given file, but it is ignored when stream mode")
+		}
+
 		err := ln.notifyImage(o.ImageFile)
 		if err != nil {
 			panic(err)
