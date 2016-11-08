@@ -13,6 +13,7 @@ var (
 )
 
 type opts struct {
+	Message    string `short:"m" long:"message" default:"" description:"Send a message directly"`
 	ImageFile  string `short:"i" long:"image" default:"" description:"Upload image file"`
 	Tee        bool   `short:"t" long:"tee" default:"false" description:"Print STDIN to screen before posting"`
 	Stream     bool   `short:"s" long:"stream" default:"false" description:"Post messages to LINE Notify continuously"`
@@ -50,9 +51,7 @@ func Run(args []string) {
 	}
 
 	if o.ImageFile != "" {
-		if o.Stream {
-			fmt.Println("Given stream option, but it is ignored when image sending mode")
-		}
+		warnIfStreamMode(o)
 		if len(remainArgs) > 0 {
 			fmt.Println("Given file, but it is ignored when stream mode")
 		}
@@ -61,6 +60,12 @@ func Run(args []string) {
 		if err != nil {
 			panic(err)
 		}
+		return
+	}
+
+	if o.Message != "" {
+		warnIfStreamMode(o)
+		ln.notifyMessage(o.Message, o.Tee)
 		return
 	}
 
@@ -74,23 +79,32 @@ func Run(args []string) {
 		go s.watchStdin()
 		go s.trap()
 		select {}
-	} else {
-		if len(remainArgs) > 0 {
-			// Send file contents
-			ln.notifyFile(remainArgs[0], o.Tee)
-			return
-		}
 
-		// Send messages from STDIN
-		lines := make(chan string)
-		go readFromStdin(lines)
+		return
+	}
 
-		tmpFilePath, err := writeTemp(lines)
-		if err != nil {
-			panic(err)
-		}
+	if len(remainArgs) > 0 {
+		// Send file contents
+		warnIfStreamMode(o)
+		ln.notifyFile(remainArgs[0], o.Tee)
+		return
+	}
 
-		defer os.Remove(tmpFilePath)
-		ln.notifyFile(tmpFilePath, o.Tee)
+	// Send messages from STDIN
+	lines := make(chan string)
+	go readFromStdin(lines)
+
+	tmpFilePath, err := writeTemp(lines)
+	if err != nil {
+		panic(err)
+	}
+
+	defer os.Remove(tmpFilePath)
+	ln.notifyFile(tmpFilePath, o.Tee)
+}
+
+func warnIfStreamMode(o *opts) {
+	if o.Stream {
+		fmt.Println("Given stream option, but it is ignored when image sending mode")
 	}
 }
