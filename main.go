@@ -47,7 +47,7 @@ func Run(args []string) {
 	}
 
 	ln := &lineNotifier{
-		token: token,
+		apiRequestBuilder: &apiRequestBuilder{token: token},
 	}
 
 	if o.ImageFile != "" {

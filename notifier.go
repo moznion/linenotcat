@@ -13,28 +13,17 @@ import (
 )
 
 type lineNotifier struct {
-	token string
+	apiRequestBuilder *apiRequestBuilder
 }
-
-const (
-	lineNotifyEndpoint = "https://notify-api.line.me/api/notify"
-)
 
 func (l *lineNotifier) notifyMessage(msg string, tee bool) error {
 	values := url.Values{}
 	values.Set("message", msg)
 
-	req, err := http.NewRequest(
-		"POST",
-		lineNotifyEndpoint,
-		strings.NewReader(values.Encode()),
-	)
+	req, err := l.apiRequestBuilder.buildFormNotifyRequest(strings.NewReader(values.Encode()))
 	if err != nil {
 		return err
 	}
-
-	req.Header.Set("Authorization", "Bearer "+l.token)
-	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 
 	if tee {
 		fmt.Print(msg)
@@ -92,17 +81,10 @@ func (l *lineNotifier) notifyImage(imageFilePath, message string, tee bool) erro
 		return err
 	}
 
-	req, err := http.NewRequest(
-		"POST",
-		lineNotifyEndpoint,
-		body,
-	)
+	req, err := l.apiRequestBuilder.buildMultipartNotifyRequest(body, mw)
 	if err != nil {
 		return err
 	}
-
-	req.Header.Set("Authorization", "Bearer "+l.token)
-	req.Header.Set("Content-Type", mw.FormDataContentType())
 
 	res, err := http.DefaultClient.Do(req)
 	defer res.Body.Close()
