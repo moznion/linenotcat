@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func checkHttpStatus(res *http.Response) error {
+func checkHTTPStatus(res *http.Response) error {
 	statusCode := res.StatusCode
 	if statusCode < 200 || statusCode > 299 {
 		read, _ := ioutil.ReadAll(res.Body)

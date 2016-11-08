@@ -27,5 +27,5 @@ func (s *status) getStatus() error {
 	}
 	fmt.Println(string(read))
 
-	return checkHttpStatus(res)
+	return checkHTTPStatus(res)
 }
