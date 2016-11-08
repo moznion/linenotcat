@@ -13,6 +13,7 @@ var (
 )
 
 type opts struct {
+	ImageFile  string `short:"i" long:"image" default:"" description:"Upload image file"`
 	Tee        bool   `short:"t" long:"tee" default:"false" description:"Print STDIN to screen before posting"`
 	Stream     bool   `short:"s" long:"stream" default:"false" description:"Post messages to LINE Notify continuously"`
 	ConfigFile string `long:"config_file" default:"" description:"Load the specified configuration file"`
@@ -44,6 +45,25 @@ func Run(args []string) {
 		panic(err)
 	}
 
+	ln := &lineNotifier{
+		token: token,
+	}
+
+	if o.ImageFile != "" {
+		if o.Stream {
+			fmt.Println("Given stream option, but it is ignored when image sending mode")
+		}
+		if len(remainArgs) > 0 {
+			fmt.Println("Given file, but it is ignored when stream mode")
+		}
+
+		err := ln.notifyImage(o.ImageFile)
+		if err != nil {
+			panic(err)
+		}
+		return
+	}
+
 	if o.Stream {
 		if len(remainArgs) > 0 {
 			fmt.Println("Given file, but it is ignored when stream mode")
@@ -55,10 +75,6 @@ func Run(args []string) {
 		go s.trap()
 		select {}
 	} else {
-		ln := &lineNotifier{
-			token: token,
-		}
-
 		if len(remainArgs) > 0 {
 			// Send file contents
 			ln.notifyFile(remainArgs[0], o.Tee)
