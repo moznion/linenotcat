@@ -54,7 +54,11 @@ func Run(args []string) {
 		warnIfStreamMode(o)
 		warnIfArgumentRemained(remainArgs)
 
-		err := ln.notifyImage(o.ImageFile)
+		msg := o.Message
+		if msg == "" {
+			msg = "Image file"
+		}
+		err := ln.notifyImage(o.ImageFile, msg, o.Tee)
 		if err != nil {
 			panic(err)
 		}

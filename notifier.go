@@ -62,11 +62,14 @@ func (l *lineNotifier) notifyFile(tmpFilePath string, tee bool) error {
 	return l.notifyMessage(string(msg), tee)
 }
 
-func (l *lineNotifier) notifyImage(imageFilePath string) error {
+func (l *lineNotifier) notifyImage(imageFilePath, message string, tee bool) error {
 	body := &bytes.Buffer{}
 	mw := multipart.NewWriter(body)
 
-	mw.WriteField("message", "Image file")
+	mw.WriteField("message", message)
+	if tee {
+		fmt.Print(message)
+	}
 
 	pw, err := mw.CreateFormFile("imageFile", imageFilePath)
 	if err != nil {
