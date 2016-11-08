@@ -22,7 +22,7 @@ const (
 
 func (l *lineNotifier) notifyMessage(msg string, tee bool) error {
 	values := url.Values{}
-	values.Set("message", string(msg))
+	values.Set("message", msg)
 
 	req, err := http.NewRequest(
 		"POST",
