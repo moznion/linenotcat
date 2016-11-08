@@ -52,9 +52,7 @@ func Run(args []string) {
 
 	if o.ImageFile != "" {
 		warnIfStreamMode(o)
-		if len(remainArgs) > 0 {
-			fmt.Println("Given file, but it is ignored when stream mode")
-		}
+		warnIfArgumentRemained(remainArgs)
 
 		err := ln.notifyImage(o.ImageFile)
 		if err != nil {
@@ -64,15 +62,15 @@ func Run(args []string) {
 	}
 
 	if o.Message != "" {
+		// Send text message directly
 		warnIfStreamMode(o)
 		ln.notifyMessage(o.Message, o.Tee)
 		return
 	}
 
 	if o.Stream {
-		if len(remainArgs) > 0 {
-			fmt.Println("Given file, but it is ignored when stream mode")
-		}
+		// Stream mode
+		warnIfArgumentRemained(remainArgs)
 
 		s := newStream(ln)
 		go s.processStreamQueue(o.Tee)
@@ -106,5 +104,11 @@ func Run(args []string) {
 func warnIfStreamMode(o *opts) {
 	if o.Stream {
 		fmt.Println("Given stream option, but it is ignored when image sending mode")
+	}
+}
+
+func warnIfArgumentRemained(remainArgs []string) {
+	if len(remainArgs) > 0 {
+		fmt.Println("Given file, but it is ignored when stream mode")
 	}
 }
