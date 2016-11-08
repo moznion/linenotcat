@@ -126,6 +126,25 @@ Thanks
 
 This tool is much inspired by [slackcat](https://github.com/vektorlab/slackcat) and some code is taken from that.
 
+For developers
+--
+
+This project depends on [glide](https://github.com/Masterminds/glide).
+So if you want to build this project, please build with glide.
+
+Example:
+
+```sh
+$ glide install
+$ go build cmd/linenotcat/linenotcat.go
+```
+
+Or you can build with `make` command
+
+```sh
+$ make VERSION=1.2.3
+```
+
 See Also
 --
 
