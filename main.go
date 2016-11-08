@@ -18,6 +18,7 @@ type opts struct {
 	Tee        bool   `short:"t" long:"tee" default:"false" description:"Print STDIN to screen before posting"`
 	Stream     bool   `short:"s" long:"stream" default:"false" description:"Post messages to LINE Notify continuously"`
 	ConfigFile string `long:"config_file" default:"" description:"Load the specified configuration file"`
+	Status     bool   `long:"status" default:"false" description:"Show connection status"`
 }
 
 func parseArgs(args []string) (opt *opts, remainArgs []string) {
@@ -46,8 +47,19 @@ func Run(args []string) {
 		panic(err)
 	}
 
+	arb := &apiRequestBuilder{token: token}
+
+	if o.Status {
+		status := &status{apiRequestBuilder: arb}
+		err := status.getStatus()
+		if err != nil {
+			panic(err)
+		}
+		return
+	}
+
 	ln := &lineNotifier{
-		apiRequestBuilder: &apiRequestBuilder{token: token},
+		apiRequestBuilder: arb,
 	}
 
 	if o.ImageFile != "" {

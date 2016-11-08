@@ -38,3 +38,19 @@ func (arb *apiRequestBuilder) buildNotifyRequest(body io.Reader, contentType str
 
 	return req, nil
 }
+
+func (arb *apiRequestBuilder) buildStatusRequest() (*http.Request, error) {
+	req, err := http.NewRequest(
+		"GET",
+		baseURL+"/status",
+		nil,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Set("Authorization", "Bearer "+arb.token)
+
+	return req, nil
+}
