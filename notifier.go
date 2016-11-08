@@ -35,7 +35,7 @@ func (l *lineNotifier) notifyMessage(msg string, tee bool) error {
 		return err
 	}
 
-	return nil
+	return checkHttpStatus(res)
 }
 
 func (l *lineNotifier) notifyMessages(msgs []string, tee bool) error {
@@ -92,5 +92,5 @@ func (l *lineNotifier) notifyImage(imageFilePath, message string, tee bool) erro
 		return err
 	}
 
-	return nil
+	return checkHttpStatus(res)
 }

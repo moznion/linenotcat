@@ -20,7 +20,6 @@ func (s *status) getStatus() error {
 	if err != nil {
 		return err
 	}
-
 	defer res.Body.Close()
 	read, err := ioutil.ReadAll(res.Body)
 	if err != nil {
@@ -28,5 +27,5 @@ func (s *status) getStatus() error {
 	}
 	fmt.Println(string(read))
 
-	return nil
+	return checkHttpStatus(res)
 }
