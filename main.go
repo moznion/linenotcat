@@ -13,12 +13,12 @@ var (
 )
 
 type opts struct {
-	Message    string `short:"m" long:"message" default:"" description:"Send a message directly"`
-	ImageFile  string `short:"i" long:"image" default:"" description:"Upload image file"`
+	Message    string `short:"m" long:"message" default:"" description:"Send a text message directly"`
+	ImageFile  string `short:"i" long:"image" default:"" description:"Send an image file"`
 	Tee        bool   `short:"t" long:"tee" default:"false" description:"Print STDIN to screen before posting"`
 	Stream     bool   `short:"s" long:"stream" default:"false" description:"Post messages to LINE Notify continuously"`
 	ConfigFile string `long:"config_file" default:"" description:"Load the specified configuration file"`
-	Status     bool   `long:"status" default:"false" description:"Show connection status"`
+	Status     bool   `long:"status" default:"false" description:"Show connection status that belongs to the token"`
 }
 
 func parseArgs(args []string) (opt *opts, remainArgs []string) {

@@ -36,12 +36,47 @@ Options
 
 ```
 Application Options:
+  -m, --message=     Send a text message directly
+  -i, --image=       Send an image file
   -t, --tee          Print STDIN to screen before posting (false)
   -s, --stream       Post messages to LINE Notify continuously (false)
       --config_file= Load the specified configuration file
+      --status       Show connection status that belongs to the token (false)
 
 Help Options:
   -h, --help         Show this help message
+```
+
+### -m, --message
+
+Send a text message directly.
+
+e.g.
+
+```sh
+$ linenotcat -m 'Hello world!'
+```
+
+Then `Hello world!` text will be sent via LINE Notify.
+
+### -i, --image
+
+Send an image file.
+
+e.g.
+
+```sh
+$ linenotcat -i /path/to/your/awesome/image.png
+```
+
+Then `image.png` image will be sent via LINE Notify with default message (default message=`Image file`).
+
+If you want to send an image with arbitrary message, please use with `-m` option.
+
+e.g.
+
+```sh
+$ linenotcat -i /path/to/your/awesome/image.png -m 'Super duper image!'
 ```
 
 ### -t, --tee
@@ -69,6 +104,17 @@ $ echo 'Hello world!' | linenotcat --config_file="/your/path/to/config"
 ```
 
 Then this command loads token information from your specified configuration file.
+
+### --status
+
+Show connection status that belongs to the token.
+
+e.g.
+
+```sh
+$ linenotcat --status
+{"status":200,"message":"ok","targetType":"USER","target":"moznion"}
+```
 
 Executable Binaries
 --
