@@ -116,15 +116,20 @@ $ linenotcat --status
 {"status":200,"message":"ok","targetType":"USER","target":"moznion"}
 ```
 
+Homebrew
+--
+
+You can get this tool via homebrew.
+
+```
+$ brew tap moznion/homebrew-linenotcat
+$ brew install linenotcat
+```
+
 Executable Binaries
 --
 
 Those are on [GitHub Releases](https://github.com/moznion/linenotcat/releases)
-
-Thanks
---
-
-This tool is much inspired by [slackcat](https://github.com/vektorlab/slackcat) and some code is taken from that.
 
 For developers
 --
@@ -144,6 +149,11 @@ Or you can build with `make` command
 ```sh
 $ make VERSION=1.2.3
 ```
+
+Thanks
+--
+
+This tool is much inspired by [slackcat](https://github.com/vektorlab/slackcat) and some code is taken from that.
 
 See Also
 --
