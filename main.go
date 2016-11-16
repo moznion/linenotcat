@@ -3,6 +3,7 @@ package linenotcat
 import (
 	"fmt"
 	"os"
+	"runtime"
 
 	"github.com/jessevdk/go-flags"
 )
@@ -44,10 +45,14 @@ func Run(args []string) {
 	}
 
 	if err != nil {
-		fmt.Println(`[ERROR] Failed to load configuration file.
+		fmt.Printf(`[ERROR] Failed to load configuration file: %v
 Is configuration file perhaps missing?
-Please try:
-	$ echo 'YOUR_ACCESS_TOKEN' > $HOME/.linenotcat`)
+Please try:`, err)
+		if runtime.GOOS == "windows" {
+			fmt.Println(`	C:\>echo 'YOUR_ACCESS_TOKEN' > %USERPROFILE%\.linenotcat`)
+		} else {
+			fmt.Println(`	$ echo 'YOUR_ACCESS_TOKEN' > $HOME/.linenotcat`)
+		}
 		os.Exit(1)
 	}
 
