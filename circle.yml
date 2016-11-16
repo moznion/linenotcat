@@ -1,9 +1,9 @@
 deployment:
   release:
-  branch: master
-  commands:
-  - go get github.com/tcnksm/ghr
-  - make clean
-  - make VERSION=`git describe --tags | perl -anlE 'm/\A([^\-]+)-/; print $1'`
-  - ghr -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME --replace `git describe --tags` bin/
+    branch: master
+    commands:
+    - go get github.com/tcnksm/ghr
+    - make clean
+    - make VERSION=`git describe --tags | perl -anlE 'm/\A([^\-]+)-/; print $1'`
+    - ghr -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME --replace `git describe --tags` bin/
 
