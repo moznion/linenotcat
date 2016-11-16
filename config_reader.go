@@ -2,8 +2,10 @@ package linenotcat
 
 import (
 	"bufio"
-	"fmt"
+	"errors"
 	"os"
+	"path/filepath"
+	"runtime"
 )
 
 func readToken(configFilePath string) (string, error) {
@@ -38,9 +40,15 @@ func readDefaultToken() (string, error) {
 }
 
 func getDefaultConfigFilePath() (string, error) {
-	homedir := os.Getenv("HOME")
-	if homedir == "" {
-		return "", fmt.Errorf("$HOME not set")
+	var homedir string
+	if runtime.GOOS == "windows" {
+		if homedir = os.Getenv("USERPROFILE"); homedir == "" {
+			return "", errors.New(`%USERPROFILE% not set`)
+		}
+	} else {
+		if homedir = os.Getenv("HOME"); homedir == "" {
+			return "", errors.New(`$HOME not set`)
+		}
 	}
-	return homedir + "/.linenotcat", nil
+	return filepath.Join(homedir, "/.linenotcat"), nil
 }
