@@ -7,9 +7,9 @@ PACKAGE=github.com/moznion/linenotcat
 REVISION=$(shell git rev-parse --verify HEAD)
 HAVE_GLIDE:=$(shell which glide > /dev/null 2>&1)
 
-.PHONY: clean build build-linux-amd64 build-linux-386 build-darwin-amd64 build-darwin-386 $(RELEASE_DIR)/linenotcat_$(GOOS)_$(GOARCH) all
+.PHONY: clean build build-linux-amd64 build-linux-386 build-darwin-amd64 build-darwin-386 build-windows-amd64 build-windows-386 $(RELEASE_DIR)/linenotcat_$(GOOS)_$(GOARCH) all
 
-all: installdeps build-linux-amd64 build-linux-386 build-darwin-amd64 build-darwin-386
+all: installdeps build-linux-amd64 build-linux-386 build-darwin-amd64 build-darwin-386 build-windows-amd64 build-windows-386
 
 build: $(RELEASE_DIR)/linenotcat_$(GOOS)_$(GOARCH)
 
@@ -24,6 +24,12 @@ build-darwin-amd64:
 
 build-darwin-386:
 	@$(MAKE) build GOOS=darwin GOARCH=386
+
+build-windows-amd64:
+	@$(MAKE) build GOOS=windows GOARCH=amd64
+
+build-windows-386:
+	@$(MAKE) build GOOS=windows GOARCH=386
 
 $(RELEASE_DIR)/linenotcat_$(GOOS)_$(GOARCH):
 ifndef VERSION
