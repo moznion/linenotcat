@@ -28,7 +28,6 @@ func parseArgs(args []string) (opt *opts, remainArgs []string) {
 	p.Usage = fmt.Sprintf("\n\nVersion: %s\nRevision: %s", ver, rev)
 	remainArgs, err := p.ParseArgs(args)
 	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
 	return o, remainArgs
