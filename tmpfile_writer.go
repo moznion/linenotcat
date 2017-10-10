@@ -12,6 +12,7 @@ func writeTemp(lines chan string) (string, error) {
 	if err != nil {
 		return "", err
 	}
+	defer tmp.Close()
 
 	w := bufio.NewWriter(tmp)
 	for line := range lines {

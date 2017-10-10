@@ -16,10 +16,10 @@ var (
 type opts struct {
 	Message    string `short:"m" long:"message" default:"" description:"Send a text message directly"`
 	ImageFile  string `short:"i" long:"image" default:"" description:"Send an image file"`
-	Tee        bool   `short:"t" long:"tee" default:"false" description:"Print STDIN to screen before posting"`
-	Stream     bool   `short:"s" long:"stream" default:"false" description:"Post messages to LINE Notify continuously"`
+	Tee        bool   `short:"t" long:"tee" description:"Print STDIN to screen before posting"`
+	Stream     bool   `short:"s" long:"stream" description:"Post messages to LINE Notify continuously"`
 	ConfigFile string `long:"config_file" default:"" description:"Load the specified configuration file"`
-	Status     bool   `long:"status" default:"false" description:"Show connection status that belongs to the token"`
+	Status     bool   `long:"status" description:"Show connection status that belongs to the token"`
 }
 
 func parseArgs(args []string) (opt *opts, remainArgs []string) {
@@ -28,6 +28,7 @@ func parseArgs(args []string) (opt *opts, remainArgs []string) {
 	p.Usage = fmt.Sprintf("\n\nVersion: %s\nRevision: %s", ver, rev)
 	remainArgs, err := p.ParseArgs(args)
 	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
 	return o, remainArgs
@@ -45,13 +46,13 @@ func Run(args []string) {
 	}
 
 	if err != nil {
-		fmt.Printf(`[ERROR] Failed to load configuration file: %v
+		fmt.Fprintf(os.Stderr, `[ERROR] Failed to load configuration file: %v
 Is configuration file perhaps missing?
 Please try:`, err)
 		if runtime.GOOS == "windows" {
-			fmt.Println(`	C:\>echo 'YOUR_ACCESS_TOKEN' > %USERPROFILE%\.linenotcat`)
+			fmt.Fprintln(os.Stderr, `	C:\>echo 'YOUR_ACCESS_TOKEN' > %USERPROFILE%\.linenotcat`)
 		} else {
-			fmt.Println(`	$ echo 'YOUR_ACCESS_TOKEN' > $HOME/.linenotcat`)
+			fmt.Fprintln(os.Stderr, `	$ echo 'YOUR_ACCESS_TOKEN' > $HOME/.linenotcat`)
 		}
 		os.Exit(1)
 	}

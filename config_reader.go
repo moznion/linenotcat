@@ -50,5 +50,5 @@ func getDefaultConfigFilePath() (string, error) {
 			return "", errors.New(`$HOME not set`)
 		}
 	}
-	return filepath.Join(homedir, "/.linenotcat"), nil
+	return filepath.Join(homedir, ".linenotcat"), nil
 }
